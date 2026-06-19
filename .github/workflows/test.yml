@@ -1,15 +1,28 @@
-name: Test Workflow
+name: Weekly Music Prompt Generator
 
 on:
   workflow_dispatch:
 
 jobs:
-  test:
+  generate:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Say hello
-        run: echo "GitHub Actions is working"
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run generator
+        run: python generator/prompt_generator.py
+
+      - name: Commit output
+        run: |
+          git config --global user.name "ai-bot"
+          git config --global user.email "ai-bot@users.noreply.github.com"
+          git add output/
+          git commit -m "generate music prompt" || exit 0
+          git push
