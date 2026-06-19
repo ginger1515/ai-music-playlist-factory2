@@ -1,0 +1,19 @@
+{
+  "genres": ["Ambient", "Lo-fi Chill", "Soft Electronic", "Piano Ambient"],
+  "use_cases": ["Studying", "Deep Focus", "Relaxation", "Sleep"],
+  "moods": ["Calm", "Peaceful", "Warm", "Minimal"],
+  "sound_elements": [
+    "soft piano",
+    "ambient pads",
+    "vinyl noise",
+    "slow synth waves",
+    "reverb atmosphere"
+  ],
+  "contexts": [
+    "rainy night",
+    "quiet room",
+    "coffee shop ambience",
+    "forest atmosphere",
+    "night city background"
+  ]
+}
