@@ -1,19 +1,35 @@
 {
-  "genres": ["Ambient", "Lo-fi Chill", "Soft Electronic", "Piano Ambient"],
-  "use_cases": ["Studying", "Deep Focus", "Relaxation", "Sleep"],
-  "moods": ["Calm", "Peaceful", "Warm", "Minimal"],
+  "playlists": {
+    "study": {
+      "genre": "Lo-fi Chill / Soft Ambient",
+      "mood": "Calm, stable, non distracting",
+      "keywords": "focus, studying, concentration, productivity"
+    },
+    "deep_work": {
+      "genre": "Minimal Ambient",
+      "mood": "Very minimal, no emotional spikes",
+      "keywords": "deep work, flow state, coding, reading"
+    },
+    "relax": {
+      "genre": "Ambient / Piano Chill",
+      "mood": "Warm, peaceful, slow",
+      "keywords": "relaxation, sleep, stress relief"
+    }
+  },
+
   "sound_elements": [
     "soft piano",
     "ambient pads",
     "vinyl noise",
-    "slow synth waves",
-    "reverb atmosphere"
+    "warm synth textures",
+    "distant reverb"
   ],
-  "contexts": [
-    "rainy night",
-    "quiet room",
-    "coffee shop ambience",
-    "forest atmosphere",
-    "night city background"
+
+  "rules": [
+    "no vocals",
+    "no lyrics",
+    "no sudden changes",
+    "loop friendly",
+    "low attention demand"
   ]
 }
