@@ -1,35 +1,52 @@
 {
   "playlists": {
-    "study": {
-      "genre": "Lo-fi Chill / Soft Ambient",
-      "mood": "Calm, stable, non distracting",
-      "keywords": "focus, studying, concentration, productivity"
-    },
-    "deep_work": {
+    "deep_focus": {
+      "title": "Deep Focus Music for Coding & Productivity",
       "genre": "Minimal Ambient",
-      "mood": "Very minimal, no emotional spikes",
-      "keywords": "deep work, flow state, coding, reading"
+      "bpm": "50-70",
+      "mood": "extremely calm, no emotional variation, stable atmosphere",
+      "keywords": "focus, coding, productivity, deep work, flow state",
+      "sound_profile": [
+        "soft pads",
+        "subtle drone",
+        "very light piano",
+        "no melody focus",
+        "wide ambient space"
+      ]
     },
-    "relax": {
-      "genre": "Ambient / Piano Chill",
-      "mood": "Warm, peaceful, slow",
-      "keywords": "relaxation, sleep, stress relief"
+    "study": {
+      "title": "Lo-Fi Study Beats for Concentration & Learning",
+      "genre": "Lo-fi Chill",
+      "bpm": "60-85",
+      "mood": "calm but slightly warm, gentle movement",
+      "keywords": "study, learning, concentration, reading",
+      "sound_profile": [
+        "lo-fi drums soft",
+        "vinyl noise",
+        "soft piano chords",
+        "warm textures"
+      ]
+    },
+    "sleep": {
+      "title": "Calm Ambient Music for Sleep & Relaxation",
+      "genre": "Ambient Sleep",
+      "bpm": "20-50",
+      "mood": "very slow, soothing, almost static soundscape",
+      "keywords": "sleep, relaxation, stress relief, calm",
+      "sound_profile": [
+        "deep pads",
+        "ocean-like textures",
+        "soft reverb waves",
+        "no rhythm"
+      ]
     }
   },
-
-  "sound_elements": [
-    "soft piano",
-    "ambient pads",
-    "vinyl noise",
-    "warm synth textures",
-    "distant reverb"
-  ],
 
   "rules": [
     "no vocals",
     "no lyrics",
-    "no sudden changes",
-    "loop friendly",
-    "low attention demand"
+    "no sharp transitions",
+    "loopable structure",
+    "Spotify background music optimized"
   ]
 }
