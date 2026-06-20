@@ -1,49 +1,68 @@
 import json
-import random
-from datetime import datetime
 import os
+from datetime import datetime
 
 with open("generator/config.json", "r") as f:
-    data = json.load(f)
+    config = json.load(f)
 
-playlist_key = random.choice(list(data["playlists"].keys()))
-playlist = data["playlists"][playlist_key]
+with open("generator/playlists.json", "r") as f:
+    playlists_data = json.load(f)
 
-title = f"{playlist['title']} - {datetime.now().strftime('%Y-%m-%d')}"
+prompts_per_playlist = config["prompts_per_playlist"]
 
-prompt = f"""
+today = datetime.now().strftime("%Y-%m-%d")
+
+output_folder = f"output/suno/{today}"
+os.makedirs(output_folder, exist_ok=True)
+
+for playlist in playlists_data["playlists"]:
+
+    playlist_name = playlist["name"]
+
+    safe_name = (
+        playlist_name
+        .replace(" ", "_")
+        .replace("&", "and")
+        .replace("/", "_")
+    )
+
+    for i in range(1, prompts_per_playlist + 1):
+
+        title = f"{safe_name}_{i:02d}"
+
+        prompt = f"""
+TITLE:
+{title}
+
+PLAYLIST:
+{playlist['name']}
+
+SUNO PROMPT:
+
 Create a {playlist['genre']} track.
 
 Mood:
 {playlist['mood']}
 
-BPM Range:
+BPM:
 {playlist['bpm']}
 
-Sound Design:
-{", ".join(playlist['sound_profile'])}
+Keywords:
+{playlist['keywords']}
 
-Context:
-Designed for Spotify playlist: {playlist['title']}
-Keywords: {playlist['keywords']}
+Sound Design:
+{', '.join(playlist['sound_profile'])}
 
 Rules:
-{", ".join(data['rules'])}
+{', '.join(config['rules'])}
 
-Structure:
-- seamless loop
-- no vocals
-- no prominent melody
-- long listening friendly
+Designed for Spotify playlist:
+{playlist['name']}
 """
 
-# output Suno-ready file
-os.makedirs("output/suno", exist_ok=True)
+        file_path = f"{output_folder}/{title}.txt"
 
-filename = datetime.now().strftime("%Y-%m-%d_%H-%M") + ".txt"
-path = f"output/suno/{filename}"
+        with open(file_path, "w") as file:
+            file.write(prompt)
 
-with open(path, "w") as f:
-    f.write(title + "\n\n" + prompt)
-
-print("Generated:", title)
+print("Generation completed")
