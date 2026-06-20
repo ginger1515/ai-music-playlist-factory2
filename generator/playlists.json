@@ -1,0 +1,43 @@
+{
+  "playlists": [
+    {
+      "name": "Deep Focus Music for Coding & Productivity",
+      "genre": "Minimal Ambient",
+      "bpm": "50-70",
+      "mood": "extremely calm, stable atmosphere, no emotional variation",
+      "keywords": "focus coding productivity deep work flow state",
+      "sound_profile": [
+        "soft pads",
+        "ambient drone",
+        "light piano",
+        "wide atmospheric space"
+      ]
+    },
+    {
+      "name": "Lo-Fi Study Beats for Concentration & Learning",
+      "genre": "Lo-fi Chill",
+      "bpm": "60-85",
+      "mood": "calm warm steady focus",
+      "keywords": "study learning concentration reading",
+      "sound_profile": [
+        "vinyl noise",
+        "soft drums",
+        "warm chords",
+        "gentle piano"
+      ]
+    },
+    {
+      "name": "Calm Ambient Music for Sleep & Relaxation",
+      "genre": "Ambient Sleep",
+      "bpm": "20-50",
+      "mood": "very slow peaceful deep relaxation",
+      "keywords": "sleep relaxation calm stress relief",
+      "sound_profile": [
+        "deep pads",
+        "soft waves",
+        "long reverb textures",
+        "no rhythm"
+      ]
+    }
+  ]
+}
