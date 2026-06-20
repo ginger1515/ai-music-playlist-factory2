@@ -2,23 +2,29 @@ import json
 import os
 from datetime import datetime
 
-with open("generator/config.json", "r") as f:
+# BASE DIRECTORY (fix per GitHub Actions)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# LOAD CONFIG
+with open(os.path.join(BASE_DIR, "config.json"), "r") as f:
     config = json.load(f)
 
-with open("generator/playlists.json", "r") as f:
+with open(os.path.join(BASE_DIR, "playlists.json"), "r") as f:
     playlists_data = json.load(f)
 
 prompts_per_playlist = config["prompts_per_playlist"]
 
+# OUTPUT FOLDER
 today = datetime.now().strftime("%Y-%m-%d")
-
-output_folder = f"output/suno/{today}"
+output_folder = os.path.join("output", "suno", today)
 os.makedirs(output_folder, exist_ok=True)
 
+# GENERATION LOOP
 for playlist in playlists_data["playlists"]:
 
     playlist_name = playlist["name"]
 
+    # safe filename
     safe_name = (
         playlist_name
         .replace(" ", "_")
@@ -58,11 +64,17 @@ Rules:
 
 Designed for Spotify playlist:
 {playlist['name']}
+
+IMPORTANT:
+- no vocals
+- no lyrics
+- loopable structure
+- background music for focus and relaxation
 """
 
-        file_path = f"{output_folder}/{title}.txt"
+        file_path = os.path.join(output_folder, f"{title}.txt")
 
         with open(file_path, "w") as file:
             file.write(prompt)
 
-print("Generation completed")
+print("Generation completed successfully")
