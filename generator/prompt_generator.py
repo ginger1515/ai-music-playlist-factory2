@@ -5,7 +5,6 @@ from datetime import datetime
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# CONFIG
 with open(os.path.join(ROOT_DIR, "generator", "config.json"), "r") as f:
     config = json.load(f)
 
@@ -35,15 +34,19 @@ for playlist in playlists_data["playlists"]:
         .replace("/", "_")
     )
 
-    for i in range(1, prompts_per_playlist + 1):
+    themes = playlist.get("themes", [])
+
+    for i in range(prompts_per_playlist):
+
+        theme = themes[i % len(themes)]
 
         prefix = random.choice(branding["release_prefixes"])
 
-        track_title = f"{prefix} {track_counter:03d}"
+        track_title = f"{prefix} {theme}"
 
         description = (
             f"{playlist['genre']} music designed for "
-            f"{playlist['keywords']}."
+            f"{theme.lower()}."
         )
 
         cover_prompt = branding["cover_styles"].get(
@@ -52,7 +55,10 @@ for playlist in playlists_data["playlists"]:
         )
 
         suno_prompt = f"""
-Create a {playlist['genre']} track.
+Create a professional {playlist['genre']} instrumental track.
+
+Theme:
+{theme}
 
 Mood:
 {playlist['mood']}
@@ -77,7 +83,8 @@ IMPORTANT:
 - no lyrics
 - seamless loop
 - long listening friendly
-- background music
+- highly repeatable
+- background music only
 """
 
         output = f"""
@@ -96,13 +103,16 @@ DESCRIPTION:
 COVER IDEA:
 {cover_prompt}
 
+THEME:
+{theme}
+
 SUNO PROMPT:
 {suno_prompt}
 """
 
         file_path = os.path.join(
             output_folder,
-            f"{safe_name}_{i:02d}.txt"
+            f"{safe_name}_{i+1:02d}.txt"
         )
 
         with open(file_path, "w") as file:
@@ -110,4 +120,4 @@ SUNO PROMPT:
 
         track_counter += 1
 
-print("Upload-ready generation completed successfully")
+print("Themed prompt generation completed successfully")
