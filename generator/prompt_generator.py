@@ -4,22 +4,23 @@ from datetime import date
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-OUTPUT_DIR = os.path.join(ROOT, "output", "releases", str(date.today()))
+DATE = str(date.today())
+OUTPUT_DIR = os.path.join(ROOT, "output", "releases", DATE)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # =========================
-# PLAYLIST (EDIT QUI)
+# PLAYLIST SOURCE OF TRUTH
 # =========================
 PLAYLISTS = [
     {"name": "Workout Energy", "theme": "high energy gym music"},
     {"name": "Chill Vibes", "theme": "lofi chill relaxing"},
-    {"name": "Focus Mode", "theme": "deep focus instrumental"},
+    {"name": "Focus Mode", "theme": "deep ambient focus music"},
 ]
 
 tracks = []
 
 # =========================
-# GENERAZIONE TRACK
+# GENERAZIONE TRACK UNIFICATA
 # =========================
 for i, pl in enumerate(PLAYLISTS, start=1):
 
@@ -27,28 +28,46 @@ for i, pl in enumerate(PLAYLISTS, start=1):
     folder = os.path.join(OUTPUT_DIR, title)
     os.makedirs(folder, exist_ok=True)
 
-    prompt = f"Create a {pl['theme']} song for playlist {pl['name']}"
+    # 🔥 SINGLE SOURCE PROMPT (Suno)
+    prompt = f"""
+Create a professional music track.
 
-    with open(os.path.join(folder, "audio_suno_prompt.txt"), "w", encoding="utf-8") as f:
-        f.write(prompt)
+Style: {pl['theme']}
+Playlist: {pl['name']}
+
+Make it high quality, streaming-ready, emotional, and consistent.
+"""
+
+    prompt_path = os.path.join(folder, "suno_prompt.txt")
+    with open(prompt_path, "w", encoding="utf-8") as f:
+        f.write(prompt.strip())
+
+    # metadata unico
+    metadata = {
+        "title": title,
+        "playlist": pl["name"],
+        "theme": pl["theme"],
+        "suno_prompt_file": "suno_prompt.txt"
+    }
 
     with open(os.path.join(folder, "metadata.json"), "w", encoding="utf-8") as f:
-        json.dump(pl, f, indent=2)
+        json.dump(metadata, f, indent=2)
 
-    with open(os.path.join(folder, "cover.png"), "wb") as f:
-        f.write(b"")
+    # =========================
+    # COVER (placeholder PRO)
+    # =========================
+    cover_prompt = f"album cover, {pl['theme']}, cinematic, modern music branding"
 
-    tracks.append({
-        "title": title,
-        "theme": pl["theme"],
-        "playlist": pl["name"]
-    })
+    with open(os.path.join(folder, "cover_prompt.txt"), "w", encoding="utf-8") as f:
+        f.write(cover_prompt)
+
+    tracks.append(metadata)
 
 # =========================
-# MANIFEST (CRITICO)
+# MANIFEST (UNICA FONTE VERITÀ)
 # =========================
 manifest = {
-    "date": str(date.today()),
+    "date": DATE,
     "tracks": tracks
 }
 
@@ -57,5 +76,5 @@ manifest_path = os.path.join(OUTPUT_DIR, "release_manifest.json")
 with open(manifest_path, "w", encoding="utf-8") as f:
     json.dump(manifest, f, indent=2)
 
-print("OK GENERATION COMPLETE")
-print("Manifest:", manifest_path)
+print("✔ PRO PIPELINE COMPLETE")
+print("✔ Manifest:", manifest_path)
