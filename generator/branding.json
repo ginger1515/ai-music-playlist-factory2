@@ -1,0 +1,18 @@
+{
+  "artist_name": "Deep Focus Project",
+  "release_prefixes": [
+    "Drift",
+    "Flow",
+    "Pulse",
+    "Echo",
+    "Horizon",
+    "Stillness",
+    "Motion",
+    "Atmosphere"
+  ],
+  "cover_styles": {
+    "Deep Focus Music for Coding & Productivity": "dark minimalist workspace, soft blue ambient light, clean geometric shapes",
+    "Lo-Fi Study Beats for Concentration & Learning": "warm desk, books, soft lamp light, cozy study atmosphere",
+    "Calm Ambient Music for Sleep & Relaxation": "night sky, soft clouds, peaceful ambient landscape"
+  }
+}
