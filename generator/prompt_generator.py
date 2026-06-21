@@ -26,10 +26,13 @@ os.makedirs(base_output, exist_ok=True)
 
 counter = 1
 
+manifest = {
+    "release_date": today,
+    "artist": branding["artist_name"],
+    "tracks": []
+}
 
-# =========================
-# AI COVER GENERATION
-# =========================
+
 def generate_cover(prompt, output_path):
 
     if not REPLICATE_API_TOKEN:
@@ -44,49 +47,40 @@ def generate_cover(prompt, output_path):
             "Content-Type": "application/json"
         },
         json={
-            # Stable Diffusion XL (public model version placeholder)
             "version": "ac732126d9a8b0b7d0d6f5c7f2f7c2d1f0c9c9b8a1a0f0e1d2c3b4a5c6d7e8f9",
             "input": {
                 "prompt": prompt,
                 "width": 1024,
-                "height": 1024,
-                "num_outputs": 1
+                "height": 1024
             }
         }
     )
 
     if response.status_code != 201:
-        print("Cover API error:", response.text)
+        print("Cover error:", response.text)
         return
 
     prediction = response.json()
     get_url = prediction["urls"]["get"]
 
     while True:
-        r = requests.get(
-            get_url,
-            headers={"Authorization": f"Token {REPLICATE_API_TOKEN}"}
-        )
+        r = requests.get(get_url, headers={"Authorization": f"Token {REPLICATE_API_TOKEN}"})
         data = r.json()
 
         if data["status"] == "succeeded":
-            image_url = data["output"][0]
-            img_data = requests.get(image_url).content
+            img_url = data["output"][0]
+            img = requests.get(img_url).content
 
             with open(output_path, "wb") as f:
-                f.write(img_data)
+                f.write(img)
             break
 
         elif data["status"] == "failed":
-            print("Cover generation failed")
             break
 
         time.sleep(2)
 
 
-# =========================
-# MAIN LOOP
-# =========================
 for playlist in playlists_data["playlists"]:
 
     themes = playlist.get("themes", [])
@@ -95,14 +89,12 @@ for playlist in playlists_data["playlists"]:
 
         theme = themes[i % len(themes)]
 
-        prefix = random.choice(branding["release_prefixes"])
-        title = f"{prefix} {theme} {counter:03d}"
+        title = f"{random.choice(branding['release_prefixes'])} {theme} {counter:03d}"
 
-        folder_name = title.replace(" ", "_")
-        release_path = os.path.join(base_output, folder_name)
-        os.makedirs(release_path, exist_ok=True)
+        folder = title.replace(" ", "_")
+        path = os.path.join(base_output, folder)
+        os.makedirs(path, exist_ok=True)
 
-        # SUNO PROMPT
         suno_prompt = f"""
 Create a {playlist['genre']} instrumental track.
 
@@ -110,48 +102,50 @@ Theme: {theme}
 Mood: {playlist['mood']}
 BPM: {playlist['bpm']}
 
-Sound Design:
+Sound:
 {', '.join(playlist['sound_profile'])}
 
 Rules:
 {', '.join(config['rules'])}
 
-No vocals, no lyrics, seamless loop, background music only.
+No vocals, no lyrics, seamless loop.
 """
 
-        # COVER PROMPT
-        cover_prompt = f"""
-minimal cinematic ambient artwork,
-theme: {theme},
-style: {config['cover_style']},
-abstract geometry, soft lighting, high detail, Spotify cover aesthetic
-"""
+        cover_prompt = f"{config['cover_style']}, theme: {theme}, cinematic ambient artwork"
 
-        # METADATA
         metadata = {
             "title": title,
             "artist": branding["artist_name"],
             "playlist": playlist["name"],
-            "description": f"{playlist['genre']} music for {theme.lower()}"
+            "theme": theme,
+            "status": "draft"
         }
 
-        # WRITE FILES
-        with open(os.path.join(release_path, "audio_suno_prompt.txt"), "w") as f:
+        # FILES
+        with open(os.path.join(path, "audio_suno_prompt.txt"), "w") as f:
             f.write(suno_prompt)
 
-        with open(os.path.join(release_path, "cover_prompt.txt"), "w") as f:
+        with open(os.path.join(path, "cover_prompt.txt"), "w") as f:
             f.write(cover_prompt)
 
-        with open(os.path.join(release_path, "metadata.json"), "w") as f:
+        with open(os.path.join(path, "metadata.json"), "w") as f:
             json.dump(metadata, f, indent=2)
 
-        with open(os.path.join(release_path, "upload_ready.txt"), "w") as f:
-            f.write("READY FOR SUNO + SPOTIFY RELEASE PIPELINE")
-
-        # GENERATE COVER IMAGE
-        cover_path = os.path.join(release_path, "cover.png")
+        cover_path = os.path.join(path, "cover.png")
         generate_cover(cover_prompt, cover_path)
+
+        # ADD TO MANIFEST
+        manifest["tracks"].append({
+            "title": title,
+            "theme": theme,
+            "playlist": playlist["name"],
+            "status": "ready_to_generate"
+        })
 
         counter += 1
 
-print("FULL RELEASE PIPELINE COMPLETED")
+# SAVE MANIFEST
+with open(os.path.join(base_output, "release_manifest.json"), "w") as f:
+    json.dump(manifest, f, indent=2)
+
+print("Release manager completed")
