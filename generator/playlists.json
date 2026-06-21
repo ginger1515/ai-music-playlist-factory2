@@ -11,6 +11,13 @@
         "ambient drone",
         "light piano",
         "wide atmospheric space"
+      ],
+      "themes": [
+        "Coding Flow",
+        "Deep Work",
+        "Night Programming",
+        "Creative Focus",
+        "Productivity Sprint"
       ]
     },
     {
@@ -24,6 +31,13 @@
         "soft drums",
         "warm chords",
         "gentle piano"
+      ],
+      "themes": [
+        "Reading Session",
+        "Exam Preparation",
+        "Library Ambience",
+        "Learning Flow",
+        "Study Marathon"
       ]
     },
     {
@@ -37,6 +51,13 @@
         "soft waves",
         "long reverb textures",
         "no rhythm"
+      ],
+      "themes": [
+        "Deep Sleep",
+        "Rain Sleep",
+        "Floating Ambient",
+        "Calm Breathing",
+        "Night Relaxation"
       ]
     }
   ]
