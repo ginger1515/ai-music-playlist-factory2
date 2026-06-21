@@ -1,4 +1,6 @@
 {
-  "name": "Focus Mode",
-  "theme": "deep focus instrumental"
+  "title": "Track_3_Focus_Mode",
+  "playlist": "Focus Mode",
+  "theme": "deep ambient focus music",
+  "suno_prompt_file": "suno_prompt.txt"
 }

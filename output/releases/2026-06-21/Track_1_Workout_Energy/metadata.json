@@ -1,4 +1,6 @@
 {
-  "name": "Workout Energy",
-  "theme": "high energy gym music"
+  "title": "Track_1_Workout_Energy",
+  "playlist": "Workout Energy",
+  "theme": "high energy gym music",
+  "suno_prompt_file": "suno_prompt.txt"
 }
