@@ -52,7 +52,7 @@
     }
 
     .error {
-      opacity: 0.7;
+      opacity: 0.8;
       font-size: 14px;
     }
   </style>
@@ -73,7 +73,7 @@ const USER = "ginger1515";
 const REPO = "ai-music-playlist-factory2";
 
 // =========================
-// AUTO DETECT LATEST RELEASE
+// GET LATEST RELEASE (ROBUST)
 // =========================
 async function getLatestReleaseDate() {
   try {
@@ -83,20 +83,24 @@ async function getLatestReleaseDate() {
 
     const data = await res.json();
 
+    if (!Array.isArray(data)) return null;
+
     const folders = data
-      .filter(item => item.type === "dir")
+      .filter(item => item && item.type === "dir" && item.name)
       .map(item => item.name)
+      .filter(name => /^\d{4}-\d{2}-\d{2}$/.test(name))
       .sort();
 
-    return folders[folders.length - 1];
+    return folders.length ? folders[folders.length - 1] : null;
 
   } catch (e) {
+    console.error(e);
     return null;
   }
 }
 
 // =========================
-// MAIN APP
+// LOAD APP
 // =========================
 async function loadApp() {
 
@@ -108,7 +112,7 @@ async function loadApp() {
     container.innerHTML = `
       <div class="error">
         ❌ Nessuna release trovata.<br><br>
-        Esegui prima GitHub Actions.
+        Controlla GitHub Actions e output/releases.
       </div>
     `;
     return;
@@ -121,6 +125,11 @@ async function loadApp() {
 
   try {
     const res = await fetch(BASE_URL + "release_manifest.json");
+
+    if (!res.ok) {
+      throw new Error("Manifest non trovato");
+    }
+
     const data = await res.json();
 
     data.tracks.forEach(track => {
@@ -163,10 +172,14 @@ async function loadApp() {
     });
 
   } catch (err) {
+    console.error(err);
     container.innerHTML = `
       <div class="error">
-        ❌ Errore nel caricamento release.<br><br>
-        Controlla GitHub Actions e manifest.
+        ❌ Errore caricamento release.<br><br>
+        Possibili cause:<br>
+        - release_manifest.json mancante<br>
+        - GitHub Actions non completata<br>
+        - path output errato
       </div>
     `;
   }
