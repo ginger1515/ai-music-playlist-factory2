@@ -1,0 +1,20 @@
+{
+  "date": "2026-06-21",
+  "tracks": [
+    {
+      "title": "Track_1_Workout_Energy",
+      "theme": "high energy gym music",
+      "playlist": "Workout Energy"
+    },
+    {
+      "title": "Track_2_Chill_Vibes",
+      "theme": "lofi chill relaxing",
+      "playlist": "Chill Vibes"
+    },
+    {
+      "title": "Track_3_Focus_Mode",
+      "theme": "deep focus instrumental",
+      "playlist": "Focus Mode"
+    }
+  ]
+}
