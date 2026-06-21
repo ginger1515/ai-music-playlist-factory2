@@ -1,0 +1,1 @@
+{'title': 'Echo Deep Work 002', 'artist': 'Deep Focus Project', 'playlist': 'Deep Focus Music for Coding & Productivity', 'description': 'Minimal Ambient music for deep work'}
