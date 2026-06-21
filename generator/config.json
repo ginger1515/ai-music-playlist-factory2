@@ -1,7 +1,8 @@
 {
   "prompts_per_playlist": 5,
   "enable_cover_generation": true,
-  "cover_style": "minimal ambient, cinematic, soft lighting, abstract geometry",
+  "cover_style": "minimal cinematic ambient, soft lighting, abstract geometry, ultra clean design",
+  "image_model": "stable-diffusion",
   "rules": [
     "no vocals",
     "no lyrics",
