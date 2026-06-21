@@ -1,0 +1,45 @@
+
+TRACK TITLE:
+Flow 014
+
+ARTIST:
+Deep Focus Project
+
+PLAYLIST:
+Calm Ambient Music for Sleep & Relaxation
+
+DESCRIPTION:
+Ambient Sleep music designed for sleep relaxation calm stress relief.
+
+COVER IDEA:
+night sky, soft clouds, peaceful ambient landscape
+
+SUNO PROMPT:
+
+Create a Ambient Sleep track.
+
+Mood:
+very slow peaceful deep relaxation
+
+BPM:
+20-50
+
+Keywords:
+sleep relaxation calm stress relief
+
+Sound Design:
+deep pads, soft waves, long reverb textures, no rhythm
+
+Rules:
+no vocals, no lyrics, loopable structure, long listening friendly, Spotify background music optimized, no sharp transitions
+
+Designed for Spotify playlist:
+Calm Ambient Music for Sleep & Relaxation
+
+IMPORTANT:
+- no vocals
+- no lyrics
+- seamless loop
+- long listening friendly
+- background music
+

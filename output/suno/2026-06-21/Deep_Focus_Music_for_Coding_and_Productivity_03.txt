@@ -1,0 +1,45 @@
+
+TRACK TITLE:
+Stillness 003
+
+ARTIST:
+Deep Focus Project
+
+PLAYLIST:
+Deep Focus Music for Coding & Productivity
+
+DESCRIPTION:
+Minimal Ambient music designed for focus coding productivity deep work flow state.
+
+COVER IDEA:
+dark minimalist workspace, soft blue ambient light, clean geometric shapes
+
+SUNO PROMPT:
+
+Create a Minimal Ambient track.
+
+Mood:
+extremely calm, stable atmosphere, no emotional variation
+
+BPM:
+50-70
+
+Keywords:
+focus coding productivity deep work flow state
+
+Sound Design:
+soft pads, ambient drone, light piano, wide atmospheric space
+
+Rules:
+no vocals, no lyrics, loopable structure, long listening friendly, Spotify background music optimized, no sharp transitions
+
+Designed for Spotify playlist:
+Deep Focus Music for Coding & Productivity
+
+IMPORTANT:
+- no vocals
+- no lyrics
+- seamless loop
+- long listening friendly
+- background music
+
