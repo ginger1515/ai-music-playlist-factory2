@@ -14,110 +14,60 @@ with open(os.path.join(ROOT_DIR, "generator", "playlists.json"), "r") as f:
 with open(os.path.join(ROOT_DIR, "generator", "branding.json"), "r") as f:
     branding = json.load(f)
 
-prompts_per_playlist = config["prompts_per_playlist"]
-
 today = datetime.now().strftime("%Y-%m-%d")
 
-output_folder = os.path.join(ROOT_DIR, "output", "suno", today)
-os.makedirs(output_folder, exist_ok=True)
+base_output = os.path.join(ROOT_DIR, "output", "releases", today)
+os.makedirs(base_output, exist_ok=True)
 
-track_counter = 1
+counter = 1
 
 for playlist in playlists_data["playlists"]:
 
-    playlist_name = playlist["name"]
-
-    safe_name = (
-        playlist_name
-        .replace(" ", "_")
-        .replace("&", "and")
-        .replace("/", "_")
-    )
-
     themes = playlist.get("themes", [])
 
-    for i in range(prompts_per_playlist):
+    for i in range(config["prompts_per_playlist"]):
 
         theme = themes[i % len(themes)]
 
         prefix = random.choice(branding["release_prefixes"])
+        title = f"{prefix} {theme} {counter:03d}"
 
-        track_title = f"{prefix} {theme}"
+        folder_name = title.replace(" ", "_")
+        release_path = os.path.join(base_output, folder_name)
+        os.makedirs(release_path, exist_ok=True)
 
-        description = (
-            f"{playlist['genre']} music designed for "
-            f"{theme.lower()}."
-        )
-
-        cover_prompt = branding["cover_styles"].get(
-            playlist_name,
-            "minimal ambient artwork"
-        )
+        cover_prompt = f"{config['cover_style']}, theme: {theme}, mood: {playlist['mood']}"
 
         suno_prompt = f"""
-Create a professional {playlist['genre']} instrumental track.
+Create a {playlist['genre']} track.
 
-Theme:
-{theme}
+Theme: {theme}
+Mood: {playlist['mood']}
+BPM: {playlist['bpm']}
 
-Mood:
-{playlist['mood']}
-
-BPM:
-{playlist['bpm']}
-
-Keywords:
-{playlist['keywords']}
-
-Sound Design:
+Sound:
 {', '.join(playlist['sound_profile'])}
 
 Rules:
 {', '.join(config['rules'])}
 
-Designed for Spotify playlist:
-{playlist_name}
-
-IMPORTANT:
-- no vocals
-- no lyrics
-- seamless loop
-- long listening friendly
-- highly repeatable
-- background music only
+No vocals, no lyrics, seamless loop.
 """
 
-        output = f"""
-TRACK TITLE:
-{track_title}
+        metadata = {
+            "title": title,
+            "artist": branding["artist_name"],
+            "playlist": playlist["name"],
+            "description": f"{playlist['genre']} music for {theme.lower()}"
+        }
 
-ARTIST:
-{branding['artist_name']}
+        # write files
+        open(os.path.join(release_path, "audio_suno_prompt.txt"), "w").write(suno_prompt)
+        open(os.path.join(release_path, "cover_prompt.txt"), "w").write(cover_prompt)
+        open(os.path.join(release_path, "metadata.txt"), "w").write(str(metadata))
+        open(os.path.join(release_path, "spotify_title.txt"), "w").write(title)
+        open(os.path.join(release_path, "artist.txt"), "w").write(branding["artist_name"])
 
-PLAYLIST:
-{playlist_name}
+        counter += 1
 
-DESCRIPTION:
-{description}
-
-COVER IDEA:
-{cover_prompt}
-
-THEME:
-{theme}
-
-SUNO PROMPT:
-{suno_prompt}
-"""
-
-        file_path = os.path.join(
-            output_folder,
-            f"{safe_name}_{i+1:02d}.txt"
-        )
-
-        with open(file_path, "w") as file:
-            file.write(output)
-
-        track_counter += 1
-
-print("Themed prompt generation completed successfully")
+print("Release packs generated successfully")
