@@ -1,11 +1,12 @@
 {
   "prompts_per_playlist": 5,
+  "enable_cover_generation": true,
+  "cover_style": "minimal ambient, cinematic, soft lighting, abstract geometry",
   "rules": [
     "no vocals",
     "no lyrics",
     "loopable structure",
     "long listening friendly",
-    "Spotify background music optimized",
-    "no sharp transitions"
+    "Spotify background music optimized"
   ]
 }
