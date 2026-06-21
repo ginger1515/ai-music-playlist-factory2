@@ -1,6 +1,6 @@
 
 TRACK TITLE:
-Stillness 003
+Horizon Night Programming
 
 ARTIST:
 Deep Focus Project
@@ -9,14 +9,20 @@ PLAYLIST:
 Deep Focus Music for Coding & Productivity
 
 DESCRIPTION:
-Minimal Ambient music designed for focus coding productivity deep work flow state.
+Minimal Ambient music designed for night programming.
 
 COVER IDEA:
 dark minimalist workspace, soft blue ambient light, clean geometric shapes
 
+THEME:
+Night Programming
+
 SUNO PROMPT:
 
-Create a Minimal Ambient track.
+Create a professional Minimal Ambient instrumental track.
+
+Theme:
+Night Programming
 
 Mood:
 extremely calm, stable atmosphere, no emotional variation
@@ -41,5 +47,6 @@ IMPORTANT:
 - no lyrics
 - seamless loop
 - long listening friendly
-- background music
+- highly repeatable
+- background music only
 

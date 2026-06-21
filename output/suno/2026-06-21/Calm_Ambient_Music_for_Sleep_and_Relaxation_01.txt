@@ -1,6 +1,6 @@
 
 TRACK TITLE:
-Echo 011
+Horizon Deep Sleep
 
 ARTIST:
 Deep Focus Project
@@ -9,14 +9,20 @@ PLAYLIST:
 Calm Ambient Music for Sleep & Relaxation
 
 DESCRIPTION:
-Ambient Sleep music designed for sleep relaxation calm stress relief.
+Ambient Sleep music designed for deep sleep.
 
 COVER IDEA:
 night sky, soft clouds, peaceful ambient landscape
 
+THEME:
+Deep Sleep
+
 SUNO PROMPT:
 
-Create a Ambient Sleep track.
+Create a professional Ambient Sleep instrumental track.
+
+Theme:
+Deep Sleep
 
 Mood:
 very slow peaceful deep relaxation
@@ -41,5 +47,6 @@ IMPORTANT:
 - no lyrics
 - seamless loop
 - long listening friendly
-- background music
+- highly repeatable
+- background music only
 
