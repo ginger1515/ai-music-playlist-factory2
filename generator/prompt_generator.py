@@ -1,7 +1,8 @@
 import json
 import os
 import random
-import base64
+import requests
+import time
 from datetime import datetime
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -16,6 +17,8 @@ with open(os.path.join(ROOT_DIR, "generator", "playlists.json"), "r") as f:
 with open(os.path.join(ROOT_DIR, "generator", "branding.json"), "r") as f:
     branding = json.load(f)
 
+REPLICATE_API_TOKEN = os.environ.get("REPLICATE_API_TOKEN")
+
 today = datetime.now().strftime("%Y-%m-%d")
 
 base_output = os.path.join(ROOT_DIR, "output", "releases", today)
@@ -23,15 +26,67 @@ os.makedirs(base_output, exist_ok=True)
 
 counter = 1
 
-# OPTIONAL IMAGE GENERATION (SAFE MOCK IF NO API KEY)
-def generate_cover_image(prompt, path):
-    """
-    Placeholder: saves prompt as txt if no API configured.
-    Replace with Replicate/DALL·E call when ready.
-    """
-    with open(path.replace(".png", ".txt"), "w") as f:
-        f.write("COVER PROMPT:\n" + prompt)
 
+# =========================
+# AI COVER GENERATION
+# =========================
+def generate_cover(prompt, output_path):
+
+    if not REPLICATE_API_TOKEN:
+        with open(output_path.replace(".png", ".txt"), "w") as f:
+            f.write(prompt)
+        return
+
+    response = requests.post(
+        "https://api.replicate.com/v1/predictions",
+        headers={
+            "Authorization": f"Token {REPLICATE_API_TOKEN}",
+            "Content-Type": "application/json"
+        },
+        json={
+            # Stable Diffusion XL (public model version placeholder)
+            "version": "ac732126d9a8b0b7d0d6f5c7f2f7c2d1f0c9c9b8a1a0f0e1d2c3b4a5c6d7e8f9",
+            "input": {
+                "prompt": prompt,
+                "width": 1024,
+                "height": 1024,
+                "num_outputs": 1
+            }
+        }
+    )
+
+    if response.status_code != 201:
+        print("Cover API error:", response.text)
+        return
+
+    prediction = response.json()
+    get_url = prediction["urls"]["get"]
+
+    while True:
+        r = requests.get(
+            get_url,
+            headers={"Authorization": f"Token {REPLICATE_API_TOKEN}"}
+        )
+        data = r.json()
+
+        if data["status"] == "succeeded":
+            image_url = data["output"][0]
+            img_data = requests.get(image_url).content
+
+            with open(output_path, "wb") as f:
+                f.write(img_data)
+            break
+
+        elif data["status"] == "failed":
+            print("Cover generation failed")
+            break
+
+        time.sleep(2)
+
+
+# =========================
+# MAIN LOOP
+# =========================
 for playlist in playlists_data["playlists"]:
 
     themes = playlist.get("themes", [])
@@ -49,23 +104,28 @@ for playlist in playlists_data["playlists"]:
 
         # SUNO PROMPT
         suno_prompt = f"""
-Create a {playlist['genre']} track.
+Create a {playlist['genre']} instrumental track.
 
 Theme: {theme}
 Mood: {playlist['mood']}
 BPM: {playlist['bpm']}
 
-Sound:
+Sound Design:
 {', '.join(playlist['sound_profile'])}
 
 Rules:
 {', '.join(config['rules'])}
 
-No vocals, no lyrics, seamless loop.
+No vocals, no lyrics, seamless loop, background music only.
 """
 
-        # COVER PROMPT (AI IMAGE)
-        cover_prompt = f"{config['cover_style']}, theme: {theme}, cinematic ambient artwork"
+        # COVER PROMPT
+        cover_prompt = f"""
+minimal cinematic ambient artwork,
+theme: {theme},
+style: {config['cover_style']},
+abstract geometry, soft lighting, high detail, Spotify cover aesthetic
+"""
 
         # METADATA
         metadata = {
@@ -86,12 +146,12 @@ No vocals, no lyrics, seamless loop.
             json.dump(metadata, f, indent=2)
 
         with open(os.path.join(release_path, "upload_ready.txt"), "w") as f:
-            f.write("READY FOR SUNO + DISTROKID UPLOAD")
+            f.write("READY FOR SUNO + SPOTIFY RELEASE PIPELINE")
 
-        # COVER GENERATION PLACEHOLDER
+        # GENERATE COVER IMAGE
         cover_path = os.path.join(release_path, "cover.png")
-        generate_cover_image(cover_prompt, cover_path)
+        generate_cover(cover_prompt, cover_path)
 
         counter += 1
 
-print("Release system with cover pipeline completed")
+print("FULL RELEASE PIPELINE COMPLETED")
