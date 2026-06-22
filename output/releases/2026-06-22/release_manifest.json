@@ -1,0 +1,23 @@
+{
+  "date": "2026-06-22",
+  "tracks": [
+    {
+      "title": "Track_1_Workout_Energy",
+      "playlist": "Workout Energy",
+      "theme": "high energy gym music",
+      "suno_prompt_file": "suno_prompt.txt"
+    },
+    {
+      "title": "Track_2_Chill_Vibes",
+      "playlist": "Chill Vibes",
+      "theme": "lofi chill relaxing",
+      "suno_prompt_file": "suno_prompt.txt"
+    },
+    {
+      "title": "Track_3_Focus_Mode",
+      "playlist": "Focus Mode",
+      "theme": "deep ambient focus music",
+      "suno_prompt_file": "suno_prompt.txt"
+    }
+  ]
+}
